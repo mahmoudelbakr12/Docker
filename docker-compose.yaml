@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  frontend:
+    image: httpd:latest
+    container_name: Frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+    networks:
+      - frontend
+
+  backend:
+    image: ranaahmed2/flask-app:0.6
+    container_name: Backend
+    depends_on:
+      - database
+    networks:
+      - backend
+
+  database:
+    image: mariadb:latest
+    container_name: Database
+    environment:
+      MARIADB_ROOT_PASSWORD: my-secret-pw
+    networks:
+      - backend
+
+networks:
+  frontend:
+  backend:
